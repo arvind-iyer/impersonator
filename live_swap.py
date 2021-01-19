@@ -35,7 +35,7 @@ def save_results(src_path, tgt_path, frame_ctr, output_dir, preds):
 
     file_path = os.path.join(output_dir, '{}->{}_{:04d}.png'.format(src_name, tgt_name, frame_ctr))
     cv_utils.save_cv2_img(preds, file_path, normalize=True)
-    print('\n\t\t\tSaving results to {}'.format(filepath))
+    print('\n\t\t\tSaving results to {}'.format(file_path))
 
 
 def frame_generator(src_path):
