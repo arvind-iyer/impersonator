@@ -1,19 +1,18 @@
+import ipdb
 import torch
 import torch.nn.functional as F
 from tqdm import tqdm
-from .models import BaseModel
+
+import utils.cv_utils as cv_utils
+import utils.mesh as mesh
+import utils.util as util
 from networks.networks import NetworksFactory, HumanModelRecovery
 from utils.detectors import PersonMaskRCNNDetector
 from utils.nmr import SMPLRenderer
-import utils.cv_utils as cv_utils
-import utils.util as util
-import utils.mesh as mesh
-
-import ipdb
+from .models import BaseModel
 
 
 class Swapper(BaseModel):
-
     PART_IDS = {
         'body': [1, 2, 3, 4, 5, 6, 7, 8, 9],
         'all': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -97,9 +96,7 @@ class Swapper(BaseModel):
     # TODO it dose not support mini-batch inputs currently.
     @torch.no_grad()
     def personalize(self, src_path, src_smpl=None, output_path='', visualizer=None):
-
         ori_img = cv_utils.read_cv2_img(src_path)
-
         # resize image and convert the color space from [0, 255] to [-1, 1]
         img = cv_utils.transform_img(ori_img, self._opt.image_size, transpose=True) * 2 - 1.0
         img = torch.tensor(img, dtype=torch.float32).cuda()[None, ...]

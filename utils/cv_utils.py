@@ -1,7 +1,6 @@
 import cv2
-from matplotlib import pyplot as plt
 import numpy as np
-
+from matplotlib import pyplot as plt
 
 HMR_IMG_SIZE = 224
 IMG_SIZE = 256
@@ -13,8 +12,11 @@ def read_cv2_img(path):
     :param path: Path to image
     :return: Only returns color images
     """
-    img = cv2.imread(path, -1)
-
+    if type(path) is str:
+        img = cv2.imread(path, -1)
+    else:
+        # path must be the BGR image
+        img = path
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     return img
